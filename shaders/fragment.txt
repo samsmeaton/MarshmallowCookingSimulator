@@ -1,0 +1,22 @@
+#version 330 core
+
+in vec2 fragmentTexCoord;
+in vec3 fragmentPosition;
+in vec3 fragmentNormal;
+
+uniform sampler2D imageTexture;
+uniform vec3 cameraPosition;
+uniform vec3 sunColor;
+uniform vec3 sunDirection;
+
+out vec4 color;
+
+void main()
+{
+    vec4 baseTexture = texture(imageTexture, fragmentTexCoord);
+    vec3 temp = .75* baseTexture.rgb;
+    float lightingAmount = max(0.2, dot(fragmentNormal, -sunDirection));
+    vec3 baseColor = lightingAmount * sunColor * temp;
+    color = vec4(baseColor, 1);
+}
+
